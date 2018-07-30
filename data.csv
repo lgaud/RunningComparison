@@ -1,0 +1,32 @@
+Name,Description,Distance,Distance Unit,Gender,Min Age,Max Age,Hours,Minutes,Seconds,Source
+US Army Basic Training Physical Fitness Test,Required to graduate boot camp,2,mi,M,17,21,0,16,36,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Basic Training Physical Fitness Test,Required to graduate boot camp,2,mi,F,17,21,0,19,42,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Basic Training Physical Fitness Test,Required to graduate boot camp,2,mi,M,22,26,0,17,30,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Basic Training Physical Fitness Test,Required to graduate boot camp,2,mi,F,22,26,0,20,26,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,M,17,21,0,15,54,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,F,17,21,0,18,54,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,M,22,26,0,16,36,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,F,22,26,0,19,36,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,M,27,31,0,17,54,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,F,27,31,0,21,42,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,M,32,36,0,18,48,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,F,32,36,0,23,6,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,M,37,41,0,19,30,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Minimum,Minimum result on semi-annual fitness tests,2,mi,F,37,41,0,24,6,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,M,17,21,0,13,0,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,F,17,21,0,15,36,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,M,22,26,0,13,0,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,F,22,26,0,15,36,http://www.military.com/military-fitness/army-fitness-requirements/army-basic-training-pft
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,M,27,31,0,13,18,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,F,27,31,0,15,48,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,M,32,36,0,13,18,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,F,32,36,0,15,54,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,M,37,41,0,13,36,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+US Army Physical Fitness Test Perfect,Scores maximum of 100 points ,2,mi,F,37,41,0,17,0,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
+Navy Seal PST - Minimum,Minimum required to qualify for Navy Seal; 9-10 minutes to be competitive. Performed wearing boots and pants.,1.5,mi,M,0,99,0,10,30,https://apps.sealswcc.com/pst/sealcalc
+Navy Seal PST - Optimum,Competitive score on Navy Seal PST,1.5,mi,M,0,99,0,9,30,https://apps.sealswcc.com/pst/sealcalc
+5000m World Record,Track world record by Kenenisa Bekele,5000,m,M,0,99,0,12,37.35,https://en.wikipedia.org/wiki/5000_metres_world_record_progression
+5000m World Record,Track world record by Tirunesh Dibaba,5000,m,F,0,99,0,14,11.15,https://en.wikipedia.org/wiki/5000_metres_world_record_progression
+5000m World Record - Master's,Age group world record - Bernard Lagat,5000,m,M,35,39,0,12,53.6,https://en.wikipedia.org/wiki/List_of_world_records_in_masters_athletics#5000_metres
+5000m Olympic Qualifying,Minimum time required for 2nd to 3rd entrant in event for a country,5000,m,M,0,99,0,13,25,https://en.wikipedia.org/wiki/Athletics_at_the_2016_Summer_Olympics_%E2%80%93_Qualification
+5000m Olympic Qualifying,Minimum time required for 2nd to 3rd entrant in event for a country,5000,m,F,0,99,0,15,24,https://en.wikipedia.org/wiki/Athletics_at_the_2016_Summer_Olympics_%E2%80%93_Qualification

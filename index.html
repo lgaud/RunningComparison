@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>How fast am I?</title>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+ 
+</head>
+<body>
+    <div id="plot"/>
+    <script>
+    
+
+function convertToKm(distance, inputUnit) {
+  // km, mi, m
+  if(inputUnit == "km") {
+    return distance;
+  }
+  if(inputUnit == "m") {
+    return distance / 1000;
+  }
+  if(inputUnit == "mi") {
+    return distance * 1.61;
+  }
+}
+
+function calculatePace(distance, hours, minutes, seconds) {
+  totalSeconds = toSeconds(hours, minutes, seconds);
+  paceSeconds = totalSeconds / distance;
+  return paceSeconds;
+}
+
+function toSeconds(hours, minutes, seconds) {
+  return seconds + (60 * minutes) + (3600 * hours);
+}
+
+function toDate(seconds) {
+  hours = Math.floor(seconds / 3600);
+  remaining = seconds % 3600;
+  minutes = Math.floor(remaining / 60);
+  remaining = remaining % 60;
+  return new Date(2018, 0, 1, hours, minutes, remaining);
+}
+
+function toHoursMinutesSecondsString(seconds) {
+  dict = toHoursMinutesSeconds(seconds);
+  return dict.Hour
+}
+
+function processData(allRows) {
+
+  console.log(allRows);
+  var x = [], y = [], text = [];
+
+  for (var i=0; i<allRows.length; i++) {
+    row = allRows[i];
+    distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"])
+    pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+    text.push(row["Name"] + " (" + row["Gender"] + ", " + row["Min Age"] + "-" + row["Max Age"] + ")")
+    x.push( toDate(pace) );
+    y.push( distance );
+  }
+  console.log( 'X',x, 'Y',y);
+  makePlotly( x, y, text);
+}
+
+function makePlotly( x, y, text ){
+  var plotDiv = document.getElementById("plot");
+  var traces = [{
+    x: x,
+    y: y,
+    type: "scatter",
+    mode: "markers",
+    text: text
+    
+  }];
+
+  Plotly.newPlot(plotDiv, traces,
+    {title: 'Plotting CSV data from AJAX call', 
+    
+        xaxis: {
+            title: 'Pace, Minutes per km',
+            tickformat: '%M:%S'
+        },
+        yaxis: {
+          title: 'Distance (km)'
+        }
+    });
+};
+
+
+function makeplot() {
+  Plotly.d3.csv("http://127.0.0.1:5500/data.csv", function(data){ processData(data) } );
+
+};
+  makeplot();
+  </script>
+</body>
+</html>
