@@ -1,10 +1,28 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>How fast am I?</title>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
- 
+        <script src="//cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> 
 </head>
 <body>
+  <section class="container">
+    <input type="number" id="distance" placeholder="distance"/>
+    <input type="number" id="hours" placeholder="hours"/>
+    <input type="number" id="minutes" placeholder="minutes"/>  
+    <input type="number" id="seconds" placeholder="seconds"/>
+    <br/>
+    <input type="number" id="age" placeholder="age"/>
+    <label>Male<input type="radio" name="gender" id="male"/></label>
+    <label>Female<input type="radio" name="gender" id="female"/></label>
+    <label>Show All<input type="radio" name="gender" id="gender-all" checked="checked"/></label>
+    <button id="add-button">Add my time!</button>
+  </section>
+    
     <div id="plot"/>
     <script>
     
@@ -40,9 +58,14 @@ function toDate(seconds) {
   return new Date(2018, 0, 1, hours, minutes, remaining);
 }
 
-function toHoursMinutesSecondsString(seconds) {
-  dict = toHoursMinutesSeconds(seconds);
-  return dict.Hour
+
+function riegelConversion(baseTime, baseDistance, predictedDistance, fatigueFactor) {
+  // https://projects.fivethirtyeight.com/marathon-calculator/
+  // https://www.hillrunner.com/calculators/race-conversion/
+  if(fatigueFactor === undefined) {
+    fatigueFactor = 1.06;
+  }
+  return baseTime * Math.pow(predictedDistance / baseDistance, fatigueFactor)
 }
 
 function processData(allRows) {
@@ -52,29 +75,79 @@ function processData(allRows) {
 
   for (var i=0; i<allRows.length; i++) {
     row = allRows[i];
-    distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"])
+    distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
+    time = new Date(2018, 0, 1, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
     pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
     text.push(row["Name"] + " (" + row["Gender"] + ", " + row["Min Age"] + "-" + row["Max Age"] + ")")
     x.push( toDate(pace) );
     y.push( distance );
   }
   console.log( 'X',x, 'Y',y);
-  makePlotly( x, y, text);
+  makeScatter( x, y, text);
 }
 
-function makePlotly( x, y, text ){
+function processDataForDot(allRows) {
+
+var adjustedTimes = [], labels = [];
+
+for (var i=0; i<allRows.length; i++) {
+  row = allRows[i];
+  distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
+  timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+  time = toDate(timeSeconds);
+  pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+  adjustedTime = riegelConversion(timeSeconds, distance, 5);
+
+  index = findInsertIndex(adjustedTime, adjustedTimes);
+  insertAtIndexOrEnd(index, adjustedTime, adjustedTimes);
+  insertAtIndexOrEnd(index, makeLabelForDot(row), labels);
+}
+
+
+
+makeDot( adjustedTimes.map(toDate), labels);
+}
+
+function findInsertIndex(item, array) {
+  index = array.findIndex(function(el, index, array) {
+    return item >= el; 
+  });
+  return index;
+}
+
+function insertAtIndexOrEnd(index, item, array) {
+  if(index === -1) {
+    array.push(item);
+  }
+  else {
+    array.splice(index, 0, item);
+  }
+}
+
+
+function makeLabelForDot(row) {
+  return row["Name"] + " (" + row["Gender"] + ", " + row["Min Age"] + "-" + row["Max Age"] + ")";
+}
+
+
+function makeScatter( x, y, text ){
   var plotDiv = document.getElementById("plot");
   var traces = [{
     x: x,
     y: y,
     type: "scatter",
     mode: "markers",
+    marker: {
+      color: 'cyan',
+      opacity: 0.5,
+      size: 10
+    },
     text: text
     
   }];
 
   Plotly.newPlot(plotDiv, traces,
-    {title: 'Plotting CSV data from AJAX call', 
+    {title: 'Running Times', 
     
         xaxis: {
             title: 'Pace, Minutes per km',
@@ -86,12 +159,116 @@ function makePlotly( x, y, text ){
     });
 };
 
+function createAndFillArray(value, length) {
+  var array = [];
+  for(var i = 0; i < length; i++) {
+    array.push(value);
+  }
+  return array;
+}
+function makeDot(x, y) {
+  var plotDiv = document.getElementById("plot");
+  var traces = [{
+    x: x,
+    y: y,
+    type: "scatter",
+    mode: "markers",
+    marker: {
+      color: createAndFillArray('cyan', x.length),
+      opacity: 0.5,
+      size: 10
+    },
+    //text: text
+    
+  }];
+  plotData = traces;
+
+  plotLayout = {
+      title: 'Running Times, Standardized to 5k', 
+      xaxis: {
+        title: 'Adjusted Time',
+        tickformat: '%M:%S',
+        showline: true
+      },
+      margin: {
+        l: 400,
+        r: 40,
+        b: 50,
+        t: 80
+      },
+      height: 800,
+
+    };
+  Plotly.newPlot(plotDiv, traces, plotLayout);
+}
+
+function addPace() {
+    var distance = parseFloat($("#distance").val());
+    var hours = parseInt($("#hours").val());
+    var minutes = parseInt($("#minutes").val());
+    var seconds = parseFloat($("#seconds").val());
+    var age = parseInt($("#age").val());
+    var gender = $("input[name='gender']:checked").val();
+
+    if(isNaN(hours)) {
+      hours = 0
+    }
+    if(isNaN(minutes)) {
+      minutes = 0
+    }
+    if(isNaN(seconds)) {
+      seconds = 0
+    }
+
+    var pace = calculatePace(distance, hours, minutes, seconds);
+    var traces = [{
+    x: [toDate(pace)],
+    y: [distance],
+    type: "scatter",
+    mode: "markers",
+    color: "red",
+    size: 10,
+    text: ["Me"]
+    
+  }];
+    Plotly.addTraces("plot", traces);
+  }
+
+  function addConvertedDistance(chartData, layout) {
+    var distance = parseFloat($("#distance").val());
+    var hours = parseInt($("#hours").val());
+    var minutes = parseInt($("#minutes").val());
+    var seconds = parseFloat($("#seconds").val());
+    if(isNaN(hours)) {
+      hours = 0
+    }
+    if(isNaN(minutes)) {
+      minutes = 0
+    }
+    if(isNaN(seconds)) {
+      seconds = 0
+    }
+
+    var converted = toDate(riegelConversion(toSeconds(hours, minutes, seconds), distance, 5));
+    var trace = chartData[0];
+    var index = findInsertIndex(converted, trace.x);
+    insertAtIndexOrEnd(index, converted, trace.x);
+    insertAtIndexOrEnd(index, "Me", trace.y);
+    insertAtIndexOrEnd(index, 'magenta', trace.marker.color);
+
+    Plotly.newPlot("plot", chartData, layout);
+  }
 
 function makeplot() {
-  Plotly.d3.csv("http://127.0.0.1:5500/data.csv", function(data){ processData(data) } );
+  Plotly.d3.csv("http://127.0.0.1:5500/data.csv", function(data){ processDataForDot(data) } );
 
 };
+
+  var plotData = undefined;
+  var plotLayout = undefined;
   makeplot();
+
+  $("#add-button").click(function() { addConvertedDistance(plotData, plotLayout) });
   </script>
 </body>
 </html>
