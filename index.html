@@ -10,20 +10,59 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> 
 </head>
 <body>
-  <section class="container">
-    <input type="number" id="distance" placeholder="distance"/>
-    <input type="number" id="hours" placeholder="hours"/>
-    <input type="number" id="minutes" placeholder="minutes"/>  
-    <input type="number" id="seconds" placeholder="seconds"/>
-    <br/>
-    <input type="number" id="age" placeholder="age"/>
-    <label>Male<input type="radio" name="gender" value="M"/></label>
-    <label>Female<input type="radio" name="gender" value="F"/></label>
-    <label>Unspecified<input type="radio" name="gender" value="U" checked="checked"/></label>
-    <button id="add-button">Add my time!</button>
-  </section>
-    
-    <div id="plot"/>
+  <div class="jumbotron">
+    <section class="container">
+      <h2>Enter your Info:</h2>
+      <div class="row">
+        <div class="col-md-2">
+          <label for="distance">Distance (km)</label>
+          <input type="number" id="distance" placeholder="distance" class="form-control" value="5"/>
+        </div>
+        <div class="col-md-2">
+            <label for="hours">Hours</label>
+            <input type="number" id="hours" placeholder="hours" class="form-control" value="0"/>
+        </div>
+        <div class="col-md-2">
+            <label for="minutes">Minutes</label>
+            <input type="number" id="minutes" placeholder="minutes" class="form-control" value="30"/>
+        </div>
+        <div class="col-md-2">
+            <label for="seconds">Seconds</label>
+            <input type="number" id="seconds" placeholder="seconds" class="form-control" value="0"/>
+        </div>
+        <div class="col-md-2">
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="age" class="form-control" value="20"/>
+        </div>
+
+      </div>
+      <br/>
+      <div class="row">
+          <div class="col-md-4">
+            <div class="form-check form-check-inline">
+              
+              <input type="radio" name="gender" value="M" id="gender-M" class="form-check-input"/>
+              <label class="form-check-label" for="gender-M">Male</label>&nbsp;
+              <input type="radio" name="gender" value="F" id="gender-F"  class="form-check-input"/>
+              <label class="form-check-label" for="gender-F">Female</label>&nbsp;
+              <input type="radio" name="gender" value="U" id="gender-U"  checked="checked" class="form-check-input"/>
+              <label class="form-check-label" for="gender-U">Unspecified</label>
+            </div>
+          </div>
+        <div class="col-md-4">&nbsp;</div>     
+        <div class="col-md-4">
+          <button id="add-button" class="btn btn-primary">Add my time!</button>
+        </div>
+      </div>
+    </section>
+  </div>
+    <section class="container">
+      <div id="plot"/>
+    </section>
+    <footer class="container">
+        <p>&copy; Lisa Gaudette 2018</p>
+      </footer>
+  
     <script>
     
 
