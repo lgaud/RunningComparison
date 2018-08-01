@@ -40,25 +40,7 @@ function convertToKm(distance, inputUnit) {
     }
     return baseTime * Math.pow(predictedDistance / baseDistance, fatigueFactor)
   }
-  
-  function processData(allRows) {
-  
-    console.log(allRows);
-    var x = [], y = [], text = [];
-  
-    for (var i=0; i<allRows.length; i++) {
-      row = allRows[i];
-      distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
-      time = new Date(2018, 0, 1, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-      pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-      text.push(row["Name"] + " (" + row["Gender"] + ", " + row["Min Age"] + "-" + row["Max Age"] + ")")
-      x.push( toDate(pace) );
-      y.push( distance );
-    }
-    console.log( 'X',x, 'Y',y);
-    makeScatter( x, y, text);
-  }
-  
+
   function filterRow(row, gender, age) {
     if(row["Show"] === "Always" || (row["Show"] === "Default" && (gender === undefined || age === undefined))) {
       return true;
@@ -113,36 +95,7 @@ function convertToKm(distance, inputUnit) {
     return row["Name"] + " (" + row["Gender"] + ", " + row["Min Age"] + "-" + row["Max Age"] + ")";
   }
   
-  
-  function makeScatter( x, y, text ){
-    var plotDiv = document.getElementById("plot");
-    var traces = [{
-      x: x,
-      y: y,
-      type: "scatter",
-      mode: "markers",
-      marker: {
-        color: 'cyan',
-        opacity: 0.5,
-        size: 10
-      },
-      text: text
-      
-    }];
-  
-    Plotly.newPlot(plotDiv, traces,
-      {title: 'Running Times', 
-      
-          xaxis: {
-              title: 'Pace, Minutes per km',
-              tickformat: '%M:%S'
-          },
-          yaxis: {
-            title: 'Distance (km)'
-          }
-      });
-  };
-  
+
   function createAndFillArray(value, length) {
     var array = [];
     for(var i = 0; i < length; i++) {
@@ -185,38 +138,6 @@ function convertToKm(distance, inputUnit) {
       };
     Plotly.newPlot(plotDiv, traces, plotLayout);
   }
-  
-  function addPace() {
-      var distance = parseFloat($("#distance").val());
-      var hours = parseInt($("#hours").val());
-      var minutes = parseInt($("#minutes").val());
-      var seconds = parseFloat($("#seconds").val());
-      var age = parseInt($("#age").val());
-      var gender = $("input[name='gender']:checked").val();
-  
-      if(isNaN(hours)) {
-        hours = 0
-      }
-      if(isNaN(minutes)) {
-        minutes = 0
-      }
-      if(isNaN(seconds)) {
-        seconds = 0
-      }
-  
-      var pace = calculatePace(distance, hours, minutes, seconds);
-      var traces = [{
-      x: [toDate(pace)],
-      y: [distance],
-      type: "scatter",
-      mode: "markers",
-      color: "red",
-      size: 10,
-      text: ["Me"]
-      
-    }];
-      Plotly.addTraces("plot", traces);
-    }
   
     function addConvertedDistance(chartData, rawData, layout) {
       var distance = parseFloat($("#distance").val());
@@ -266,4 +187,4 @@ function convertToKm(distance, inputUnit) {
     var plotLayout = undefined;
     makeplot();
   
-    $("#add-button").click(function() { addConvertedDistance(plotData, rawData, plotLayout) });
+    $("#add-button").click(function() { addConvertedDistance(plotData, rawData, plotLayout); });
