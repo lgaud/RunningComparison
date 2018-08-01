@@ -157,12 +157,14 @@ function addConvertedDistance(chartData, rawData, layout) {
     var trace = chartData[0];
     trace.x = filteredData.x;
     trace.y = filteredData.y;
+    trace.marker.color = createAndFillArray("cyan", filteredData.x.length);
     var index = findInsertIndex(converted, trace.x);
     insertAtIndexOrEnd(index, converted, trace.x);
     insertAtIndexOrEnd(index, "Me (" + gender + ", " + age + ")", trace.y);
     insertAtIndexOrEnd(index, 'magenta', trace.marker.color);
 
     Plotly.newPlot("plot", chartData, layout);
+    return chartData;
 }
 
 function makeplot() {
@@ -179,4 +181,7 @@ var plotData = undefined;
 var plotLayout = undefined;
 makeplot();
 
-$("#add-button").click(function () { addConvertedDistance(plotData, rawData, plotLayout); });
+$("#add-button").click(function () { 
+    plotData = addConvertedDistance(plotData, rawData, plotLayout);
+    
+});
