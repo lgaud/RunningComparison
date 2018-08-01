@@ -17,9 +17,9 @@
     <input type="number" id="seconds" placeholder="seconds"/>
     <br/>
     <input type="number" id="age" placeholder="age"/>
-    <label>Male<input type="radio" name="gender" id="male"/></label>
-    <label>Female<input type="radio" name="gender" id="female"/></label>
-    <label>Show All<input type="radio" name="gender" id="gender-all" checked="checked"/></label>
+    <label>Male<input type="radio" name="gender" value="M"/></label>
+    <label>Female<input type="radio" name="gender" value="F"/></label>
+    <label>Unspecified<input type="radio" name="gender" value="U" checked="checked"/></label>
     <button id="add-button">Add my time!</button>
   </section>
     
@@ -86,26 +86,37 @@ function processData(allRows) {
   makeScatter( x, y, text);
 }
 
-function processDataForDot(allRows) {
+function filterRow(row, gender, age) {
+  if(row["Show"] === "Always" || (row["Show"] === "Default" && (gender === undefined || age === undefined))) {
+    return true;
+  }
+  if(gender === "U" || gender === row["Gender"]) {
+    if(age <= row["Max Age"] && age >= row["Min Age"]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function processDataForDot(allRows, filterGender, filterAge) {
 
 var adjustedTimes = [], labels = [];
 
 for (var i=0; i<allRows.length; i++) {
   row = allRows[i];
-  distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
-  timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-  time = toDate(timeSeconds);
-  pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-  adjustedTime = riegelConversion(timeSeconds, distance, 5);
+  if(filterRow(row, filterGender, filterAge)) {
+    distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
+    timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+    time = toDate(timeSeconds);
+    pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+    adjustedTime = riegelConversion(timeSeconds, distance, 5);
 
-  index = findInsertIndex(adjustedTime, adjustedTimes);
-  insertAtIndexOrEnd(index, adjustedTime, adjustedTimes);
-  insertAtIndexOrEnd(index, makeLabelForDot(row), labels);
+    index = findInsertIndex(adjustedTime, adjustedTimes);
+    insertAtIndexOrEnd(index, adjustedTime, adjustedTimes);
+    insertAtIndexOrEnd(index, makeLabelForDot(row), labels);
+  }
 }
-
-
-
-makeDot( adjustedTimes.map(toDate), labels);
+return {x: adjustedTimes.map(toDate), y: labels};
 }
 
 function findInsertIndex(item, array) {
@@ -196,7 +207,7 @@ function makeDot(x, y) {
         b: 50,
         t: 80
       },
-      height: 800,
+      height: 500,
 
     };
   Plotly.newPlot(plotDiv, traces, plotLayout);
@@ -234,11 +245,16 @@ function addPace() {
     Plotly.addTraces("plot", traces);
   }
 
-  function addConvertedDistance(chartData, layout) {
+  function addConvertedDistance(chartData, rawData, layout) {
     var distance = parseFloat($("#distance").val());
     var hours = parseInt($("#hours").val());
     var minutes = parseInt($("#minutes").val());
     var seconds = parseFloat($("#seconds").val());
+
+    var age = parseInt($("#age").val());
+    var gender = $("input[name='gender']:checked").val();
+
+
     if(isNaN(hours)) {
       hours = 0
     }
@@ -249,26 +265,35 @@ function addPace() {
       seconds = 0
     }
 
+    var filteredData = processDataForDot(rawData, gender, age);
+
     var converted = toDate(riegelConversion(toSeconds(hours, minutes, seconds), distance, 5));
     var trace = chartData[0];
+    trace.x = filteredData.x;
+    trace.y = filteredData.y;
     var index = findInsertIndex(converted, trace.x);
     insertAtIndexOrEnd(index, converted, trace.x);
-    insertAtIndexOrEnd(index, "Me", trace.y);
+    insertAtIndexOrEnd(index, "Me (" + gender + ", " + age + ")", trace.y);
     insertAtIndexOrEnd(index, 'magenta', trace.marker.color);
 
     Plotly.newPlot("plot", chartData, layout);
   }
 
 function makeplot() {
-  Plotly.d3.csv("http://127.0.0.1:5500/data.csv", function(data){ processDataForDot(data) } );
+  Plotly.d3.csv("http://127.0.0.1:5500/data.csv", 
+    function(data){ 
+      processedData = processDataForDot(data);
+      makeDot(processedData.x, processedData.y);
+      rawData = data; 
+      } );
 
 };
-
+  var rawData = undefined;
   var plotData = undefined;
   var plotLayout = undefined;
   makeplot();
 
-  $("#add-button").click(function() { addConvertedDistance(plotData, plotLayout) });
+  $("#add-button").click(function() { addConvertedDistance(plotData, rawData, plotLayout) });
   </script>
 </body>
 </html>
