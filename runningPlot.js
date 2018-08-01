@@ -116,7 +116,7 @@ function makeDot(x, y) {
         title: 'Running Times, Standardized to 5k',
         xaxis: {
             title: 'Adjusted Time',
-            tickformat: '%M:%S',
+            tickformat: '%H:%M:%S',
             showline: true
         },
         margin: {
