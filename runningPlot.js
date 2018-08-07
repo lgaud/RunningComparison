@@ -159,12 +159,11 @@ function makeplot() {
         });
 };
 
-function getAgeGradeScore(rows, gender, age, distance, time) {
+function getAgeGradeSeconds(rows, gender, age, distance) {
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         if(row["Age"] == age && row["Gender"] == gender) {
-            ageGradeSeconds = row[distance];
-            return ageGradeSeconds / time;
+            return row[distance];
         }
     }
     return NaN;
@@ -183,8 +182,8 @@ function updateAgeGrade(gender, age, distance, time) {
         });
         return;
     }
-    var score = getAgeGradeScore(ageGradeData, gender, age, distance, time);
-
+    var ageGradeSeconds = getAgeGradeSeconds(ageGradeData, gender, age, distance, time);
+    var score = ageGradeSeconds / time;
     if(!isNaN(score)) {
         var f = Plotly.d3.format(".0f");
         scoreText = f(score*100)  + "%";
@@ -197,10 +196,41 @@ function updateAgeGrade(gender, age, distance, time) {
     
         $("#age-grade-score").text(scoreText);
         $(".age-grade").show();
+        var shapes = createAgeGradeShapes(ageGradeSeconds);
+        Plotly.relayout("plot", {"shapes": shapes});
     }
     else {
         $(".age-grade").hide();
     }
+}
+
+function createAgeGradeShapes(ageGradeTime) {
+    var shapes = [];
+    var min = toDate(ageGradeTime);
+    var colors = ["#2171B5", "#6baed6", "#bdd7e7", "#eff3ff"];
+    for(var i = 0; i < ageGradeThresholds.length; i++) {
+        
+        var max = toDate(ageGradeTime / ageGradeThresholds[i]["cutoff"]);
+        rect = {
+            'type': 'rect',
+            // x-reference is assigned to the x-values
+            'xref': 'x',
+            // y-reference is assigned to the plot paper [0,1]
+            'yref': 'paper',
+            'x0': min,
+            'y0': 0,
+            'x1': max,
+            'y1': 1,
+            'fillcolor': colors[i],
+            'opacity': 0.2,
+            'line': {
+                'width': 1,
+            }
+        }
+        shapes.push(rect);
+        min = max;
+    }
+    return shapes;
 }
 
 var rawData = undefined;
