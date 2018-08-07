@@ -54,15 +54,15 @@ function processDataForDot(allRows, filterGender, filterAge) {
     var adjustedTimes = [], labels = [];
 
     for (var i = 0; i < allRows.length; i++) {
-        row = allRows[i];
+        var row = allRows[i];
         if (filterRow(row, filterGender, filterAge)) {
-            distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
-            timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-            time = toDate(timeSeconds);
-            pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-            adjustedTime = riegelConversion(timeSeconds, distance, 5);
+            var distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
+            var timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+            var time = toDate(timeSeconds);
+            var pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
+            var adjustedTime = riegelConversion(timeSeconds, distance, 5);
 
-            index = findInsertIndex(adjustedTime, adjustedTimes);
+            var index = findInsertIndex(adjustedTime, adjustedTimes);
             insertAtIndexOrEnd(index, adjustedTime, adjustedTimes);
             insertAtIndexOrEnd(index, makeLabelForDot(row), labels);
         }
@@ -131,29 +131,12 @@ function makeDot(x, y) {
     Plotly.newPlot(plotDiv, traces, plotLayout);
 }
 
-function addConvertedDistance(chartData, rawData, layout) {
-    var distance = parseFloat($("#distance").val());
-    var hours = parseInt($("#hours").val());
-    var minutes = parseInt($("#minutes").val());
-    var seconds = parseFloat($("#seconds").val());
+function addConvertedDistance(chartData, rawData, layout, gender, age, distance, time) {
 
-    var age = parseInt($("#age").val());
-    var gender = $("input[name='gender']:checked").val();
-
-
-    if (isNaN(hours)) {
-        hours = 0
-    }
-    if (isNaN(minutes)) {
-        minutes = 0
-    }
-    if (isNaN(seconds)) {
-        seconds = 0
-    }
 
     var filteredData = processDataForDot(rawData, gender, age);
 
-    var converted = toDate(riegelConversion(toSeconds(hours, minutes, seconds), distance, 5));
+    var converted = toDate(riegelConversion(time, distance, 5));
     var trace = chartData[0];
     trace.x = filteredData.x;
     trace.y = filteredData.y;
@@ -174,14 +157,78 @@ function makeplot() {
             makeDot(processedData.x, processedData.y);
             rawData = data;
         });
-
 };
+
+function getAgeGradeScore(rows, gender, age, distance, time) {
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if(row["Age"] == age && row["Gender"] == gender) {
+            ageGradeSeconds = row[distance];
+            return ageGradeSeconds / time;
+        }
+    }
+    return NaN;
+}
+var ageGradeThresholds = [
+    {"cutoff" : 0.9, "description": "World Class"},
+    {"cutoff" : 0.8, "description": "National Class"},
+    {"cutoff" : 0.7, "description": "Regional Class"},
+    {"cutoff" : 0.6, "description": "Local Class"}
+];
+function updateAgeGrade(gender, age, distance, time) {
+    if(ageGradeData === undefined) {
+        Plotly.d3.csv("AgeGradingSeconds.csv", function(data) {
+            ageGradeData = data;
+            updateAgeGrade(gender, age, distance, time)
+        });
+        return;
+    }
+    var score = getAgeGradeScore(ageGradeData, gender, age, distance, time);
+
+    if(!isNaN(score)) {
+        var f = Plotly.d3.format(".0f");
+        scoreText = f(score*100)  + "%";
+        for(var i = 0; i < ageGradeThresholds.length; i++) {
+            if(score > ageGradeThresholds[i]["cutoff"]) {
+                scoreText += " (" + ageGradeThresholds[i]["description"] + ")";
+                break;
+            }
+        }
+    
+        $("#age-grade-score").text(scoreText);
+        $(".age-grade").show();
+    }
+    else {
+        $(".age-grade").hide();
+    }
+}
+
 var rawData = undefined;
+var ageGradeData = undefined;
 var plotData = undefined;
 var plotLayout = undefined;
 makeplot();
 
-$("#add-button").click(function () { 
-    plotData = addConvertedDistance(plotData, rawData, plotLayout);
-    
+$("#add-button").click(function () {
+    var distance = parseFloat($("#distance").val());
+    var hours = parseInt($("#hours").val());
+    var minutes = parseInt($("#minutes").val());
+    var seconds = parseFloat($("#seconds").val());
+
+    var age = parseInt($("#age").val());
+    var gender = $("input[name='gender']:checked").val();
+
+
+    if (isNaN(hours)) {
+        hours = 0
+    }
+    if (isNaN(minutes)) {
+        minutes = 0
+    }
+    if (isNaN(seconds)) {
+        seconds = 0
+    }
+    var time = toSeconds(hours, minutes, seconds);
+    plotData = addConvertedDistance(plotData, rawData, plotLayout, gender, age, distance, time);
+    updateAgeGrade(gender, age, distance + " km", time);
 });
