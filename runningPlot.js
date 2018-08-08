@@ -105,8 +105,8 @@ function makeDot(x, y) {
         type: "scatter",
         mode: "markers",
         marker: {
-            color: createAndFillArray('cyan', x.length),
-            opacity: 0.5,
+            color: createAndFillArray('#21B5B0', x.length),
+            opacity: 0.8,
             size: 10
         },
     }];
@@ -140,11 +140,11 @@ function addConvertedDistance(chartData, rawData, layout, gender, age, distance,
     var trace = chartData[0];
     trace.x = filteredData.x;
     trace.y = filteredData.y;
-    trace.marker.color = createAndFillArray("cyan", filteredData.x.length);
+    trace.marker.color = createAndFillArray("#21B5B0", filteredData.x.length);
     var index = findInsertIndex(converted, trace.x);
     insertAtIndexOrEnd(index, converted, trace.x);
     insertAtIndexOrEnd(index, "Me (" + gender + ", " + age + ")", trace.y);
-    insertAtIndexOrEnd(index, 'magenta', trace.marker.color);
+    insertAtIndexOrEnd(index, '#B52170', trace.marker.color);
 
     Plotly.newPlot("plot", chartData, layout);
     return chartData;
@@ -163,16 +163,16 @@ function getAgeGradeSeconds(rows, gender, age, distance) {
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         if(row["Age"] == age && row["Gender"] == gender) {
-            return row[distance];
+            return parseFloat(row[distance]);
         }
     }
     return NaN;
 }
 var ageGradeThresholds = [
-    {"cutoff" : 0.9, "description": "World Class"},
-    {"cutoff" : 0.8, "description": "National Class"},
-    {"cutoff" : 0.7, "description": "Regional Class"},
-    {"cutoff" : 0.6, "description": "Local Class"}
+    {"cutoff" : 0.9, "description": "World"},
+    {"cutoff" : 0.8, "description": "National"},
+    {"cutoff" : 0.7, "description": "Regional"},
+    {"cutoff" : 0.6, "description": "Local"}
 ];
 function updateAgeGrade(gender, age, distance, time) {
     if(ageGradeData === undefined) {
@@ -189,15 +189,15 @@ function updateAgeGrade(gender, age, distance, time) {
         scoreText = f(score*100)  + "%";
         for(var i = 0; i < ageGradeThresholds.length; i++) {
             if(score > ageGradeThresholds[i]["cutoff"]) {
-                scoreText += " (" + ageGradeThresholds[i]["description"] + ")";
+                scoreText += " (" + ageGradeThresholds[i]["description"] + " class)";
                 break;
             }
         }
     
         $("#age-grade-score").text(scoreText);
         $(".age-grade").show();
-        var shapes = createAgeGradeShapes(ageGradeSeconds);
-        Plotly.relayout("plot", {"shapes": shapes});
+        var newLayout = createAgeGradeShapes(ageGradeSeconds);
+        Plotly.relayout("plot", newLayout);
     }
     else {
         $(".age-grade").hide();
@@ -206,31 +206,46 @@ function updateAgeGrade(gender, age, distance, time) {
 
 function createAgeGradeShapes(ageGradeTime) {
     var shapes = [];
-    var min = toDate(ageGradeTime);
-    var colors = ["#2171B5", "#6baed6", "#bdd7e7", "#eff3ff"];
+    var annotations = [];
+    var min = ageGradeTime;
+    var colors = ["#595959", "#595959", "#595959", "#595959"];
+    var opacities = [0.4, 0.3, 0.2, 0.1]
     for(var i = 0; i < ageGradeThresholds.length; i++) {
         
-        var max = toDate(ageGradeTime / ageGradeThresholds[i]["cutoff"]);
-        rect = {
+        var max = ageGradeTime / ageGradeThresholds[i]["cutoff"];
+        var rect = {
             'type': 'rect',
             // x-reference is assigned to the x-values
             'xref': 'x',
             // y-reference is assigned to the plot paper [0,1]
             'yref': 'paper',
-            'x0': min,
+            'x0': toDate(min),
             'y0': 0,
-            'x1': max,
+            'x1': toDate(max),
             'y1': 1,
             'fillcolor': colors[i],
-            'opacity': 0.2,
+            'opacity': opacities[i],
             'line': {
-                'width': 1,
+                'width': 0,
             }
+        };
+        var annotation = {
+            
+                xref: 'x',
+                yref: 'paper',
+                x: toDate((max + min) / 2),
+                xanchor: 'center',
+                y: 1 - (0.05 * (i % 2)),
+                yanchor: 'bottom',
+                text: ageGradeThresholds[i]["description"],
+                showarrow: false
+              
         }
+        annotations.push(annotation)
         shapes.push(rect);
         min = max;
     }
-    return shapes;
+    return {shapes: shapes, annotations: annotations};
 }
 
 var rawData = undefined;
