@@ -78,7 +78,7 @@ function getColor(row) {
     }
 }
 
-function processDataForDot(allRows, filterGender, filterAge) {
+function processDataForDot(allRows, standardKm, filterGender, filterAge) {
     var adjustedTimes = [], labels = [], text = [], colors = [];
 
     for (var i = 0; i < allRows.length; i++) {
@@ -88,7 +88,7 @@ function processDataForDot(allRows, filterGender, filterAge) {
             var timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
             var time = toDate(timeSeconds);
             var pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
-            var adjustedTime = riegelConversion(timeSeconds, distance, 5);
+            var adjustedTime = riegelConversion(timeSeconds, distance, standardKm);
             
             var label = makeLabelForDot(row);
             var index = labels.findIndex(function(val) { return val === label});
@@ -156,7 +156,7 @@ function makeDot(x, y, text,colors) {
     plotData = traces;
 
     plotLayout = {
-        title: 'Running Times, Standardized to 5k',
+        title: 'Running Times (Converted)',
         xaxis: {
             title: 'Adjusted Time',
             tickformat: '%H:%M:%S',
@@ -177,9 +177,9 @@ function makeDot(x, y, text,colors) {
 function addConvertedDistance(chartData, rawData, layout, gender, age, distance, time) {
 
 
-    var filteredData = processDataForDot(rawData, gender, age);
+    var filteredData = processDataForDot(rawData, distance, gender, age);
 
-    var converted = toDate(riegelConversion(time, distance, 5));
+    var converted = toDate(time);
     var trace = chartData[0];
     trace.x = filteredData.x;
     trace.y = filteredData.y;
@@ -198,17 +198,26 @@ function addConvertedDistance(chartData, rawData, layout, gender, age, distance,
 function makeplot() {
     Plotly.d3.csv("data.csv",
         function (data) {
-            processedData = processDataForDot(data);
+            processedData = processDataForDot(data, 5);
             makeDot(processedData.x, processedData.y, processedData.text, processedData.colors);
             rawData = data;
         });
 };
 
 function getAgeGradeSeconds(rows, gender, age, distance) {
+    var distanceLabel = distance + " km";
+    // Don't worry about decimal for Half/Full Marathons
+    if(distance >= 21 && distance < 22) {
+        distanceLabel = "H. Mar";
+    }
+    else if (distance >= 42 && distance < 43) {
+        distanceLabel = "Marathon";
+    }
+
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         if(row["Age"] == age && row["Gender"] == gender) {
-            return parseFloat(row[distance]);
+            return parseFloat(row[distanceLabel]);
         }
     }
     return NaN;
@@ -320,5 +329,5 @@ $("#add-button").click(function () {
     }
     var time = toSeconds(hours, minutes, seconds);
     plotData = addConvertedDistance(plotData, rawData, plotLayout, gender, age, distance, time);
-    updateAgeGrade(gender, age, distance + " km", time);
+    updateAgeGrade(gender, age, distance, time);
 });
