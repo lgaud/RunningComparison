@@ -50,24 +50,54 @@ function filterRow(row, gender, age) {
     return false;
 }
 
+function getColor(row) {
+    var age = parseInt(row["Min Age"]);
+    if(age === undefined || age < 20) {
+        return "#081d58";
+    }
+    else if (age < 30) {
+        return "#253494";
+    }
+    else if (age < 40) {
+        return "#225ea8";
+    }
+    else if (age < 50) {
+        return "#1d91c0";
+    }
+    else if (age < 60) {
+        return "#41b6c4";
+    }
+    else if (age < 70) {
+        return "#7fcdbb";
+    }
+    else if (age < 80) {
+        return "#c7e8b4"
+    }
+    else {
+        return "#edf8b1";
+    }
+}
+
 function processDataForDot(allRows, filterGender, filterAge) {
-    var adjustedTimes = [], labels = [];
+    var adjustedTimes = [], labels = [], text = [], colors = [];
 
     for (var i = 0; i < allRows.length; i++) {
         var row = allRows[i];
-        if (filterRow(row, filterGender, filterAge)) {
+        if (true || filterRow(row, filterGender, filterAge)) {
             var distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
             var timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
             var time = toDate(timeSeconds);
             var pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
             var adjustedTime = riegelConversion(timeSeconds, distance, 5);
-
+            
             var index = findInsertIndex(adjustedTime, adjustedTimes);
             insertAtIndexOrEnd(index, adjustedTime, adjustedTimes);
             insertAtIndexOrEnd(index, makeLabelForDot(row), labels);
+            insertAtIndexOrEnd(index, makeAgeLabelForDot(row), text);
+            insertAtIndexOrEnd(index, getColor(row), colors)
         }
     }
-    return { x: adjustedTimes.map(toDate), y: labels };
+    return { x: adjustedTimes.map(toDate), y: labels, colors: colors, text: text};
 }
 
 function findInsertIndex(item, array) {
@@ -87,7 +117,11 @@ function insertAtIndexOrEnd(index, item, array) {
 }
 
 function makeLabelForDot(row) {
-    return row["Name"] + " (" + row["Gender"] + ", " + row["Min Age"] + "-" + row["Max Age"] + ")";
+    return row["Name"] + " (" + row["Gender"] + ")";
+}
+
+function makeAgeLabelForDot(row) {
+    return row["Min Age"] + "-" + row["Max Age"];
 }
 
 function createAndFillArray(value, length) {
@@ -97,7 +131,7 @@ function createAndFillArray(value, length) {
     }
     return array;
 }
-function makeDot(x, y) {
+function makeDot(x, y, text,colors) {
     var plotDiv = document.getElementById("plot");
     var traces = [{
         x: x,
@@ -105,10 +139,15 @@ function makeDot(x, y) {
         type: "scatter",
         mode: "markers",
         marker: {
-            color: createAndFillArray('#21B5B0', x.length),
+            color: colors, //createAndFillArray('#21B5B0', x.length),
             opacity: 0.8,
-            size: 10
+            size: 10,
+            line: {
+                width: 1,
+                color: "#AAAAAA"
+            }
         },
+        text:  text
     }];
     plotData = traces;
 
@@ -140,7 +179,9 @@ function addConvertedDistance(chartData, rawData, layout, gender, age, distance,
     var trace = chartData[0];
     trace.x = filteredData.x;
     trace.y = filteredData.y;
-    trace.marker.color = createAndFillArray("#21B5B0", filteredData.x.length);
+    trace.text = filteredData.text;
+    
+    trace.marker.color = filteredData.colors; //createAndFillArray("#21B5B0", filteredData.x.length);
     var index = findInsertIndex(converted, trace.x);
     insertAtIndexOrEnd(index, converted, trace.x);
     insertAtIndexOrEnd(index, "Me (" + gender + ", " + age + ")", trace.y);
@@ -154,7 +195,7 @@ function makeplot() {
     Plotly.d3.csv("data.csv",
         function (data) {
             processedData = processDataForDot(data);
-            makeDot(processedData.x, processedData.y);
+            makeDot(processedData.x, processedData.y, processedData.text, processedData.colors);
             rawData = data;
         });
 };
