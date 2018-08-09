@@ -83,16 +83,20 @@ function processDataForDot(allRows, filterGender, filterAge) {
 
     for (var i = 0; i < allRows.length; i++) {
         var row = allRows[i];
-        if (true || filterRow(row, filterGender, filterAge)) {
+        if (filterRow(row, filterGender, filterAge)) {
             var distance = convertToKm(parseFloat(row['Distance']), row["Distance Unit"]);
             var timeSeconds = toSeconds(parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
             var time = toDate(timeSeconds);
             var pace = calculatePace(distance, parseInt(row["Hours"]), parseInt(row["Minutes"]), parseFloat(row["Seconds"]));
             var adjustedTime = riegelConversion(timeSeconds, distance, 5);
             
-            var index = findInsertIndex(adjustedTime, adjustedTimes);
+            var label = makeLabelForDot(row);
+            var index = labels.findIndex(function(val) { return val === label});
+            if(index < 0) {
+                index = findInsertIndex(adjustedTime, adjustedTimes);
+            }
             insertAtIndexOrEnd(index, adjustedTime, adjustedTimes);
-            insertAtIndexOrEnd(index, makeLabelForDot(row), labels);
+            insertAtIndexOrEnd(index, label, labels);
             insertAtIndexOrEnd(index, makeAgeLabelForDot(row), text);
             insertAtIndexOrEnd(index, getColor(row), colors)
         }

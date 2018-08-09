@@ -23,8 +23,8 @@ US Army PFT Perfect,Scores maximum of 100 points ,,2,mi,M,32,36,0,13,18,http://w
 US Army PFT Perfect,Scores maximum of 100 points ,,2,mi,F,32,36,0,15,54,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
 US Army PFT Perfect,Scores maximum of 100 points ,Default,2,mi,M,37,41,0,13,36,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
 US Army PFT Perfect,Scores maximum of 100 points ,Default,2,mi,F,37,41,0,17,0,http://www.military.com/military-fitness/army-fitness-requirements/army-pft-two-mile-run-score-chart
-Navy Seal PST - Minimum,Minimum required to qualify for Navy Seal; 9-10 minutes to be competitive. Performed wearing boots and pants.,Default,1.5,mi,M,0,99,0,10,30,https://apps.sealswcc.com/pst/sealcalc
-Navy Seal PST - Optimum,Competitive score on Navy Seal PST,Default,1.5,mi,M,0,99,0,9,30,https://apps.sealswcc.com/pst/sealcalc
+Navy Seal PST,Minimum required to qualify for Navy Seal; 9-10 minutes to be competitive. Performed wearing boots and pants.,Default,1.5,mi,M,0,99,0,10,30,https://apps.sealswcc.com/pst/sealcalc
+Navy Seal PST,Competitive score on Navy Seal PST,Default,1.5,mi,M,0,99,0,9,30,https://apps.sealswcc.com/pst/sealcalc
 5000m World Record,Track world record by Kenenisa Bekele,Always,5000,m,M,0,99,0,12,37.35,https://en.wikipedia.org/wiki/5000_metres_world_record_progression
 5000m World Record,Track world record by Tirunesh Dibaba,Always,5000,m,F,0,99,0,14,11.15,https://en.wikipedia.org/wiki/5000_metres_world_record_progression
 5000m Olympic Qualifying,Minimum time required for 2nd to 3rd entrant in event for a country,Default,5000,m,M,0,99,0,13,25,https://en.wikipedia.org/wiki/Athletics_at_the_2016_Summer_Olympics_%E2%80%93_Qualification
@@ -53,3 +53,69 @@ Master's 5k World Record,Libby James (USA),,5,km,F,80,84,0,25,14,https://en.wiki
 Master's 5k World Record,Lenore Montgomery (CAN),,5,km,F,85,89,0,34,23,https://en.wikipedia.org/wiki/List_of_masters_world_records_in_road_running#5K_run
 Master's 5k World Record,Evelyn Tripp (USA),,5,km,F,90,94,0,46,24,https://en.wikipedia.org/wiki/List_of_masters_world_records_in_road_running#5K_run
 Master's 5k World Record,Betty Ashley (USA),Default,5,km,F,95,99,1,28,36,https://en.wikipedia.org/wiki/List_of_masters_world_records_in_road_running#5K_run
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,18,34,2,53,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,35,39,2,55,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,40,44,2,58,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,45,49,3,5,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,50,54,3,14,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,55,59,3,23,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,60,64,3,34,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,65,69,3,45,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,70,74,4,10,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,75,79,4,30,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,M,80,120,4,55,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,18,34,1,21,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,35,39,1,23,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,40,44,1,25,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,45,49,1,28,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,50,54,1,32,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,55,59,1,36,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,60,64,1,41,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,65,69,1,46,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,70,74,1,57,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,75,79,2,7,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,M,80,120,2,15,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,18,34,3,13,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,35,39,3,15,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,40,44,3,26,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,45,49,3,38,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,50,54,3,51,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,55,59,4,10,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,60,64,4,27,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,65,69,4,50,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,70,74,5,30,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,75,79,6,0,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Marathon),2018,,42.2,km,F,80,120,6,35,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,18,34,1,32,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,35,39,1,34,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,40,44,1,37,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,45,49,1,42,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,50,54,1,49,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,55,59,1,54,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,60,64,2,2,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,65,69,2,12,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,70,74,2,27,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,75,79,2,40,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+New York Marathon Time-Qualifying Standard (Half Marathon),2018,,21.1,km,F,80,120,2,50,0,https://www.tcsnycmarathon.org/plan-your-race/run-in-2018/2018-time-qualifying-standards
+Boston Marathon Qualifying,2018,,42.2,km,M,18,34,3,5,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,35,39,3,10,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,40,44,3,15,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,45,49,3,25,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,50,54,3,30,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,55,59,3,40,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,60,64,3,55,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,65,69,4,10,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,70,74,4,25,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,75,79,4,40,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,M,80,120,4,55,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,18,34,3,35,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,35,39,3,40,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,40,44,3,45,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,45,49,3,55,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,50,54,4,0,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,55,59,4,10,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,60,64,4,25,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,65,69,4,40,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,70,74,4,55,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,75,79,5,10,0,https://www.baa.org/races/boston-marathon/enter/qualify
+Boston Marathon Qualifying,2018,,42.2,km,F,80,120,5,25,0,https://www.baa.org/races/boston-marathon/enter/qualify
